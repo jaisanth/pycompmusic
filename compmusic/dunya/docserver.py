@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see http://www.gnu.org/licenses/
 
-import conn
+from . import conn
 import json
 import os
 
@@ -56,7 +56,7 @@ def add_sourcetype(document, filetype, file):
     """ If file is a string and refers to a file on disk, the contents
         of the file is read and send, otherwise it is sent as-is """
     path = "/document/by-id/%s/add/%s" % (document, filetype)
-    if isinstance(file, basestring) and os.path.exists(file):
+    if isinstance(file, str) and os.path.exists(file):
         f = open(file, "rb")
     else:
         f = file

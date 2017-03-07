@@ -7,8 +7,8 @@ import re
 
 logger = logging.getLogger("dunya")
 
-import conn
-import docserver
+from . import conn
+from . import docserver
 
 def get_recordings():
     """ Get a list of makam recordings in the database.
@@ -350,7 +350,7 @@ def download_release(releaseid, location, slugify=False):
 
 def slugify_tr(value):
 
-    value_slug = value.replace(u'\u0131', 'i')
+    value_slug = value.replace('\u0131', 'i')
     value_slug = unicodedata.normalize('NFKD', value_slug).encode('ascii', 'ignore').decode('ascii')
     value_slug = re.sub('[^\w\s-]', '', value_slug).strip()
 

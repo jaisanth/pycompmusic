@@ -3,8 +3,8 @@ import requests
 import logging
 logger = logging.getLogger("dunya")
 
-import conn
-import docserver
+from . import conn
+from . import docserver
 
 COLLECTIONS = None
 

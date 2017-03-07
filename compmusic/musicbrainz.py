@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see http://www.gnu.org/licenses/
 
-from log import log
-import urllib2
+from .log import log
+import urllib.request, urllib.error, urllib.parse
 import xml.etree.ElementTree as etree
 import time
 
@@ -47,11 +47,11 @@ def _get_items_in_collection(collectionid, collectiontype):
         try:
             log.debug("offset", offset)
             url = "https://beta.musicbrainz.org/ws/2/collection/%s/%s?offset=%d" % (collectionid, collectiontype, offset)
-            req = urllib2.Request(url, headers=headers)
-            xml = urllib2.urlopen(req).read()
+            req = urllib.request.Request(url, headers=headers)
+            xml = urllib.request.urlopen(req).read()
             count, ids = ws_ids(xml)
             items.extend(ids)
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             if e.code != 503:
                 # if we get ratelimited, sleep and try again.
                 # any other error, re-raise
@@ -73,8 +73,8 @@ def get_works_in_collection(collection):
 def get_collection_name(collection):
     """ Get the name of a collection """
     url = "http://musicbrainz.org/ws/2/collection/%s/releases" % (collection, )
-    req = urllib2.Request(url, headers=headers)
-    xml = urllib2.urlopen(req).read()
+    req = urllib.request.Request(url, headers=headers)
+    xml = urllib.request.urlopen(req).read()
     tree = etree.fromstring(xml)
     name = list(list(tree)[0])[0]
     return name.text

@@ -1,5 +1,5 @@
-import urlparse
-import urllib
+import urllib.parse
+import urllib.request, urllib.parse, urllib.error
 import requests
 
 import logging
@@ -86,15 +86,15 @@ def _dunya_post(url, data=None, files=None):
 def _make_url(path, **kwargs):
     if not kwargs:
         kwargs = {}
-    for key, value in kwargs.items():
-        if isinstance(value, unicode):
+    for key, value in list(kwargs.items()):
+        if isinstance(value, str):
             kwargs[key] = value.encode('utf8')
-    url = urlparse.urlunparse((
+    url = urllib.parse.urlunparse((
         'http',
         HOSTNAME,
         '%s' % path,
         '',
-        urllib.urlencode(kwargs),
+        urllib.parse.urlencode(kwargs),
         ''
     ))
     return url
